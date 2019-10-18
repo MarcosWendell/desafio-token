@@ -1,7 +1,7 @@
 import { Connection, Repository } from 'typeorm';
 
 import { EventEntity } from './../entity/event.entity';
-import { EVENT_REPOSITORY, DATABASE_CONNECTION } from '../shared/constants';
+import { EVENT_REPOSITORY, DATABASE_CONNECTION } from '../asset/constants';
 
 export const eventProviders = [
   {

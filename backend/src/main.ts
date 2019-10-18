@@ -1,4 +1,4 @@
-import { PORT } from './shared/constants';
+import { PORT } from './asset/constants';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';

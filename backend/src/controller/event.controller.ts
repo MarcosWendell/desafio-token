@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Param, Delete, Put, Body } from '@nestjs/common';
 
 import { EventService } from '../provider/event.service';
-import { EventDTO } from '../shared/event.dto';
+import { EventDTO } from '../asset/event.dto';
 
 @Controller('event')
 export class EventController {

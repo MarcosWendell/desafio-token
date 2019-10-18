@@ -16,4 +16,5 @@ export class EventEntity {
 
   @Column('text')
   endHour: string;
+
 }

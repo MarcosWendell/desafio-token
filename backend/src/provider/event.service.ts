@@ -1,9 +1,9 @@
-import { Injectable, Inject, Delete } from '@nestjs/common';
+import { Injectable, Inject, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { EventEntity } from './../entity/event.entity';
-import { EVENT_REPOSITORY } from './../shared/constants';
-import { EventDTO } from '../shared/event.dto';
+import { EVENT_REPOSITORY } from '../asset/constants';
+import { EventDTO } from '../asset/event.dto';
 
 @Injectable()
 export class EventService {
@@ -17,7 +17,13 @@ export class EventService {
   }
 
   async find(id: string) {
-    return await this.eventRepository.findOne(id);
+    const event =  await this.eventRepository.findOne(id);
+
+    if (!event) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    return event;
   }
 
   async create(data: EventDTO) {
@@ -26,12 +32,26 @@ export class EventService {
   }
 
   async update(id: string, data: Partial<EventDTO>) {
+    let event = await this.eventRepository.findOne(id);
+
+    if (!event) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
     await this.eventRepository.update(id, data);
-    return await this.eventRepository.findOne(id);
+
+    event = await this.eventRepository.findOne(id);
+    return event;
   }
 
   async remove(id: string) {
+    const event = await this.eventRepository.findOne(id);
+
+    if (!event) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
     await this.eventRepository.delete(id);
-    return { deleted: true };
+    return event;
   }
 }
