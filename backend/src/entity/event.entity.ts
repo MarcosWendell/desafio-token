@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { UserEntity } from './user.entity';
 
 @Entity('event')
 export class EventEntity {
@@ -17,4 +18,6 @@ export class EventEntity {
   @Column('text')
   endHour: string;
 
+  @ManyToOne(type => UserEntity, user => user.events)
+  owner: UserEntity;
 }

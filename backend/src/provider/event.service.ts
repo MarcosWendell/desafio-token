@@ -1,8 +1,8 @@
-import { Injectable, Inject, Delete, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
-import { EventEntity } from './../entity/event.entity';
 import { EVENT_REPOSITORY } from '../asset/constants';
+import { EventEntity } from './../entity/event.entity';
 import { EventDTO } from '../asset/event.dto';
 
 @Injectable()
