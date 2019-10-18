@@ -11,9 +11,9 @@ export class EventEntity {
   @Column('text')
   description: string;
 
-  @Column('date')
-  startHour: Date;
+  @Column('text')
+  startHour: string;
 
-  @Column('date')
-  endHour: Date;
+  @Column('text')
+  endHour: string;
 }
