@@ -1,57 +1,87 @@
+import { USER_REPOSITORY } from './../asset/constants';
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { EVENT_REPOSITORY } from '../asset/constants';
 import { EventEntity } from './../entity/event.entity';
-import { EventDTO } from '../asset/event.dto';
+import { EventDTO, EventRO } from '../asset/event.dto';
+import { UserEntity } from '../entity/user.entity';
+import { isDeclaration } from '@babel/types';
 
 @Injectable()
 export class EventService {
   constructor(
     @Inject(EVENT_REPOSITORY)
     private readonly eventRepository: Repository<EventEntity>,
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async showAll() {
-    return await this.eventRepository.find();
+  private toResponseObject(event: EventEntity): EventRO {
+    return { ...event, owner: event.owner.toResponseObject() };
   }
 
-  async find(id: string) {
-    const event =  await this.eventRepository.findOne(id);
+  private ensureOwnership(event: EventEntity, userId: string) {
+    if (event.owner.id !== userId) {
+      throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  async showAll(): Promise<EventRO[]> {
+    const events = await this.eventRepository.find({ relations: ['owner'] });
+    return events.map(event => this.toResponseObject(event));
+  }
+
+  async find(id: string): Promise<EventRO> {
+    const event = await this.eventRepository.findOne({
+      where: { id },
+      relations: ['owner'],
+    });
 
     if (!event) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
 
-    return event;
+    return this.toResponseObject(event);
   }
 
-  async create(data: EventDTO) {
-    const event = await this.eventRepository.create(data);
-    return await this.eventRepository.save(event);
+  async create(userId: string, data: EventDTO): Promise<EventRO> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const event = await this.eventRepository.create({ ...data, owner: user });
+    await this.eventRepository.save(event);
+    return this.toResponseObject(event);
   }
 
-  async update(id: string, data: Partial<EventDTO>) {
-    let event = await this.eventRepository.findOne(id);
+  async update(id: string, userId: string, data: Partial<EventDTO>) {
+    let event = await this.eventRepository.findOne({
+      where: { id },
+      relations: ['owner'],
+    });
 
     if (!event) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-
+    this.ensureOwnership(event, userId);
     await this.eventRepository.update(id, data);
 
-    event = await this.eventRepository.findOne(id);
-    return event;
+    event = await this.eventRepository.findOne({
+      where: id,
+      relations: ['owner'],
+    });
+    return this.toResponseObject(event);
   }
 
-  async remove(id: string) {
-    const event = await this.eventRepository.findOne(id);
+  async remove(id: string, userId: string) {
+    const event = await this.eventRepository.findOne({
+      where: { id },
+      relations: ['owner'],
+    });
 
     if (!event) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-
+    this.ensureOwnership(event, userId);
     await this.eventRepository.delete(id);
-    return event;
+    return this.toResponseObject(event);
   }
 }
