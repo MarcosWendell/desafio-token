@@ -25,14 +25,14 @@ export class AuthService {
   }
 
   get token() {
-    return localStorage.getItem('event_token');
+    return sessionStorage.getItem('event_token');
   }
 
   set token(val: string) {
     if (val) {
-      localStorage.setItem('event_token', val);
+      sessionStorage.setItem('event_token', val);
     } else {
-      localStorage.clear();
+      sessionStorage.clear();
     }
   }
 }

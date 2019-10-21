@@ -1,8 +1,9 @@
-import { EventDTO, Event } from './../models/event';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from './auth.service';
+
+import { AuthService } from '@app/services/auth.service';
+import { EventDTO } from '@app/models/event';
 
 @Injectable({
   providedIn: 'root'
