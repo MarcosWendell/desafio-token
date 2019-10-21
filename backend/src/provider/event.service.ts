@@ -65,7 +65,7 @@ export class EventService {
     await this.eventRepository.update(id, data);
 
     event = await this.eventRepository.findOne({
-      where: id,
+      where: { id },
       relations: ['owner'],
     });
     return this.toResponseObject(event);
