@@ -9,9 +9,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { EventEntity } from './event.entity';
 import { UserRO } from '../asset/user.dto';
-import * as env from 'dotenv';
-
-env.config();
+import { SECRET } from '../asset/constants';
 
 @Entity('user')
 export class UserEntity {
@@ -55,6 +53,6 @@ export class UserEntity {
 
   private get token() {
     const { id, username } = this;
-    return jwt.sign({ id, username }, process.env.SECRET, { expiresIn: '7d' });
+    return jwt.sign({ id, username }, SECRET, { expiresIn: '7d' });
   }
 }

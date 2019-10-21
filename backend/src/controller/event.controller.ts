@@ -6,7 +6,7 @@ import { AuthGuard } from '../shared/auth.guard';
 import { ValidationPipe } from './../shared/validation.pipe';
 import { User } from '../asset/user.decorator';
 
-@Controller('event')
+@Controller('api/events')
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
