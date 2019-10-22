@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <!-- Image and text -->
+  <a class="navbar-brand" href="#">
+    <i
+      class="far fa-calendar-alt"
+      style="font-size:24px;color: cornflowerblue;"
+    ></i>
+    Event Calendar
+  </a>
+  <!-- Navbar itens -->
+  <div class="nav navbar-nav w-100 justify-content-end">
+    <button type="button" class="btn btn-outline-secondary mx-2" [routerLink]="['/register']" routerLinkActive="router-link-active" >
+      Register
+    </button>
+    <button type="button" class="btn btn-outline-info mx-2" [routerLink]="['/login']" routerLinkActive="router-link-active" >
+      Login
+    </button>
+  </div>
+</nav>
+
+<main class="bg h-100 pt-4">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</main>
+
