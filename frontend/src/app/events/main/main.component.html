@@ -1,0 +1,18 @@
+<h5>Events</h5>
+
+<div *ngFor="let event of events">
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">{{ event.title }}</h5>
+      <p class="card-text">{{ event.description }}</p>
+      <button type="button" class="btn btn-info" [routerLink]= "['${event.id}/update']" routerLinkActive="router-link-active">Update</button>
+      <button type="button" class="btn btn-info" [routerLink]= "['${event.id}/delete']" routerLinkActive="router-link-active">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <button type="button" class="btn btn-lg" [routerLink]= "['${event.id}/update']" routerLinkActive="router-link-active">New Event</button>
+  </div>
+</div>

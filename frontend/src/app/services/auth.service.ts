@@ -1,8 +1,10 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 
 import { AuthDTO, AuthType } from '@app/models/auth';
+import { User } from '@app/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,8 @@ export class AuthService {
     return this.http.post(`${this.api}/${authType}`, data);
   }
 
-  login(data: AuthDTO) {
-    return this.auth('login', data);
+  login(data: AuthDTO): Observable<User> {
+    return this.auth('login', data) as Observable<User>;
   }
 
   register(data: AuthDTO) {

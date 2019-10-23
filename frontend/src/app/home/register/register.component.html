@@ -1,21 +1,63 @@
 <div class="d-flex justify-content-center">
   <div class="card" style="width: 24rem; border: 1px solid black;">
-    <div class="card-header text-center" style="border-bottom: 1px solid black; background: cornflowerblue;">
-        <h3 class="mb-0" style="color: black;"><strong>Register</strong></h3>
+    <div
+      class="card-header text-center"
+      style="border-bottom: 1px solid black; background: cornflowerblue;"
+    >
+      <h3 class="mb-0" style="color: black;"><strong>Register</strong></h3>
     </div>
     <div class="card-body">
-      <form  [formGroup]="form">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
         <div class="form-group">
-          <label for="email">Name</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter email">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="Enter name"
+            formControlName="name"
+            [ngClass]="applyCssErro('name')"
+          />
+          <app-apply-css-error
+            message="Name is required"
+            [show]="verifyInvalidTouched('name')"
+          >
+          </app-apply-css-error>
         </div>
+
         <div class="form-group">
-          <label for="email">Email address</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter email">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            placeholder="Enter username"
+            formControlName="username"
+            [ngClass]="applyCssErro('username')"
+          />
+          <app-apply-css-error
+            message="Username is required"
+            [show]="verifyInvalidTouched('username')"
+          >
+          </app-apply-css-error>
         </div>
+
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="*****">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="*****"
+            formControlName="password"
+            [ngClass]="applyCssErro('password')"
+          />
+          <app-apply-css-error
+            message="Password is required"
+            [show]="verifyInvalidTouched('password')"
+          >
+          </app-apply-css-error>
         </div>
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Submit</button>

@@ -1,9 +1,10 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '@app/services/auth.service';
-import { EventDTO } from '@app/models/event';
+import { EventDTO, Event } from '@app/models/event';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +22,8 @@ export class ApiService {
     });
   }
 
-  getUsers() {
-    return this.request('GET', 'users');
-  }
-
-  getEvents() {
-    return this.request('GET', 'events');
+  getEvents(): Observable<Event[]> {
+    return this.request('GET', 'events') as Observable<Event[]>;
   }
 
   getEvent(id: string) {

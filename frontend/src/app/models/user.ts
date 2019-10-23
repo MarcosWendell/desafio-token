@@ -5,7 +5,6 @@ export interface User {
   name: string;
   username: string;
   token?: string;
-  events: Event[];
 }
 
 export interface UserDTO {

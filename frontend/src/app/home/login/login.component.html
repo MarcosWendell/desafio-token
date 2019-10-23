@@ -7,7 +7,7 @@
       <h3 class="mb-0" style="color: black;"><strong>Login</strong></h3>
     </div>
     <div class="card-body">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" >
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="username">Username</label>
           <input
@@ -16,7 +16,13 @@
             id="username"
             placeholder="Enter username"
             formControlName="username"
+            [ngClass]="applyCssErro('username')"
           />
+          <app-apply-css-error
+            message="Username is required"
+            [show]="verifyInvalidTouched('username')"
+          >
+          </app-apply-css-error>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -26,7 +32,13 @@
             id="password"
             placeholder="*****"
             formControlName="password"
+            [ngClass]="applyCssErro('password')"
           />
+          <app-apply-css-error
+            message="Password is required"
+            [show]="verifyInvalidTouched('password')"
+          >
+          </app-apply-css-error>
         </div>
         <div class="text-center">
           <button type="submit" class="btn btn-primary">Submit</button>
