@@ -27,9 +27,9 @@ export class EventService {
     }
   }
 
-  async showAll(): Promise<EventRO[]> {
-    const events = await this.eventRepository.find({ relations: ['owner'] });
-    return events.map(event => this.toResponseObject(event));
+  async showAll(userId: string): Promise<EventRO[]> {
+    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['events']});
+    return user.events.map((event) => this.toResponseObject(event));
   }
 
   async find(id: string): Promise<EventRO> {

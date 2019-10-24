@@ -1,19 +1,21 @@
-import { Controller, Get, Post, Param, Delete, Put, Body, UsePipes, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete, Put, Body, UsePipes, UseGuards, UseInterceptors } from '@nestjs/common';
 
 import { EventService } from '../provider/event.service';
 import { EventDTO } from '../asset/event.dto';
 import { AuthGuard } from '../shared/auth.guard';
 import { ValidationPipe } from './../shared/validation.pipe';
 import { User } from '../asset/user.decorator';
+import { UserInterceptor } from './../shared/user.interceptor';
 
+@UseInterceptors(new UserInterceptor())
 @Controller('api/events')
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
-  @Get()
+  @Get('')
   @UseGuards(new AuthGuard())
-  showAllEvents() {
-    return this.eventService.showAll();
+  showAllEvents(@User('id') user: string) {
+    return this.eventService.showAll(user);
   }
 
   @Get(':id')
