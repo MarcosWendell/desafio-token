@@ -1,12 +1,11 @@
 import { USER_REPOSITORY } from './../asset/constants';
-import { Injectable, Inject, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { EVENT_REPOSITORY } from '../asset/constants';
 import { EventEntity } from './../entity/event.entity';
 import { EventDTO, EventRO } from '../asset/event.dto';
 import { UserEntity } from '../entity/user.entity';
-import { isDeclaration } from '@babel/types';
 
 @Injectable()
 export class EventService {

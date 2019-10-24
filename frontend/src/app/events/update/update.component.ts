@@ -13,6 +13,7 @@ import { of } from 'rxjs';
 })
 export class UpdateComponent implements OnInit {
   form: FormGroup;
+  event: EventDTO;
 
   constructor(
     private api: ApiService,
@@ -22,24 +23,33 @@ export class UpdateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = this.formBuider.group({
-      title: [null, [Validators.required, Validators.minLength(5)]],
-      description: [null, [Validators.required, Validators.minLength(5)]],
-      startHour: [
-        null,
-        [
-          Validators.required,
-          Validators.pattern(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/)
-        ]
-      ],
-      endHour: [
-        null,
-        [
-          Validators.required,
-          Validators.pattern(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/)
-        ]
-      ]
-    });
+    const eventId = this.route.snapshot.params.id;
+    this.api
+      .getEvent(eventId)
+      .pipe(
+        tap((event: EventDTO) => {
+          this.event = event;
+          this.form = this.formBuider.group({
+            title: [this.event.title, [Validators.required, Validators.minLength(5)]],
+            description: [this.event.description, [Validators.required, Validators.minLength(5)]],
+            startHour: [
+              this.event.startHour,
+              [
+                Validators.required,
+                Validators.pattern(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/)
+              ]
+            ],
+            endHour: [
+              this.event.endHour,
+              [
+                Validators.required,
+                Validators.pattern(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/)
+              ]
+            ]
+          });
+        })
+      )
+      .subscribe();
   }
 
   onSubmit() {

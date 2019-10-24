@@ -1,5 +1,5 @@
 import { UserDTO, UserRO } from './../asset/user.dto';
-import { Injectable, Inject, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { UserEntity } from '../entity/user.entity';
@@ -35,7 +35,6 @@ export class UserService {
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
-    Logger.log(`User: ${user}`);
     user = await this.userRepository.create(data);
     await this.userRepository.save(user);
     return user.toResponseObject();

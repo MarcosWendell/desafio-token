@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AlertModule } from 'ngx-bootstrap';
+import { AlertModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
@@ -13,6 +13,7 @@ import { AppComponent } from '@app/app.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    ModalModule.forRoot(),
     AlertModule.forRoot(),
     AppRoutingModule,
   ],

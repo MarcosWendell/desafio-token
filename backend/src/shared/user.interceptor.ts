@@ -2,8 +2,7 @@ import {
   Injectable,
   NestInterceptor,
   ExecutionContext,
-  CallHandler,
-  Logger,
+  CallHandler
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import * as jwt from 'jsonwebtoken';
