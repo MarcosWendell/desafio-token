@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
         .pipe(
           tap((user) => {
             this.auth.token = user.token;
+            this.auth.user = user.id;
             this.router.navigate(['/events']);
           }),
           catchError((error: any) => {

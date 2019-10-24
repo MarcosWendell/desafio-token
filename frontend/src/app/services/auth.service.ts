@@ -37,4 +37,16 @@ export class AuthService {
       sessionStorage.clear();
     }
   }
+
+  get user() {
+    return sessionStorage.getItem('user');
+  }
+
+  set user(val: string) {
+    if (val) {
+      sessionStorage.setItem('user', val);
+    } else {
+      sessionStorage.clear();
+    }
+  }
 }

@@ -16,6 +16,7 @@ export class ApiService {
 
   private request(method: string, endpoint: string, body?: any) {
     const url = `${this.api}/${endpoint}`;
+    console.log('auth: ' + this.auth.user);
     return this.http.request(method, url, {
       body,
       headers: { authorization: `Bearer ${this.auth.token}` }
@@ -23,7 +24,7 @@ export class ApiService {
   }
 
   getEvents(): Observable<Event[]> {
-    return this.request('GET', 'events') as Observable<Event[]>;
+    return this.request('GET', `events`) as Observable<Event[]>;
   }
 
   getEvent(id: string) {
@@ -31,7 +32,7 @@ export class ApiService {
   }
 
   createEvent(data: EventDTO) {
-    return this.request('POST', 'events/create', data);
+    return this.request('POST', `events/create`, data);
   }
 
   updateEvent(id: string, data: Partial<EventDTO>) {
