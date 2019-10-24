@@ -2,8 +2,6 @@ import { ApplyCssErrorComponent } from './apply-css-error/apply-css-error.compon
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
-
 @NgModule({
   declarations: [
     ApplyCssErrorComponent

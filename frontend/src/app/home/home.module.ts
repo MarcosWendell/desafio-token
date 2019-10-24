@@ -18,9 +18,9 @@ import { SharedModule } from '@app/shared/shared.module';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     ReactiveFormsModule,
     HomeRoutingModule,
-    SharedModule
   ]
 })
 export class HomeModule { }

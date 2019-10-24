@@ -6,6 +6,8 @@ import { EventsRoutingModule } from './events-routing.module';
 import { MainComponent } from './main/main.component';
 import { CreateComponent } from './create/create.component';
 import { UpdateComponent } from './update/update.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 @NgModule({
@@ -17,6 +19,8 @@ import { UpdateComponent } from './update/update.component';
   ],
   imports: [
     CommonModule,
+    SharedModule,
+    ReactiveFormsModule,
     EventsRoutingModule
   ]
 })

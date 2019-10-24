@@ -1,5 +1,5 @@
 import { USER_REPOSITORY } from './../asset/constants';
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { EVENT_REPOSITORY } from '../asset/constants';
@@ -28,8 +28,8 @@ export class EventService {
   }
 
   async showAll(userId: string): Promise<EventRO[]> {
-    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['events']});
-    return user.events.map((event) => this.toResponseObject(event));
+    const events = await this.eventRepository.find({ where: { owner: userId }, relations: ['owner']});
+    return events.map((event) => this.toResponseObject(event));
   }
 
   async find(id: string): Promise<EventRO> {

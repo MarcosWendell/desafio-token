@@ -8,8 +8,8 @@ import { UpdateComponent } from './update/update.component';
 
 const childRoutes = [
   { path: '', component: MainComponent},
-  { path: '/create', component: CreateComponent},
-  { path: '/:id/update', component: UpdateComponent},
+  { path: 'create', component: CreateComponent},
+  { path: ':id/update', component: UpdateComponent},
 ];
 
 const routes: Routes = [

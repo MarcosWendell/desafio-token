@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@app/services/auth.service';
 
 @Component({
   selector: 'app-events',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./events.component.scss']
 })
 export class EventsComponent implements OnInit {
-  constructor() {}
+  username: string;
 
-  ngOnInit() {}
+  constructor(private auth: AuthService) {}
+
+  ngOnInit() {
+    this.username = this.auth.user;
+  }
 }

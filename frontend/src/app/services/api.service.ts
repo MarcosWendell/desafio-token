@@ -16,7 +16,6 @@ export class ApiService {
 
   private request(method: string, endpoint: string, body?: any) {
     const url = `${this.api}/${endpoint}`;
-    console.log('auth: ' + this.auth.user);
     return this.http.request(method, url, {
       body,
       headers: { authorization: `Bearer ${this.auth.token}` }
@@ -36,6 +35,7 @@ export class ApiService {
   }
 
   updateEvent(id: string, data: Partial<EventDTO>) {
+    console.log(id, data);
     return this.request('PUT', `events/${id}/update`, data);
   }
 

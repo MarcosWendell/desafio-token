@@ -7,6 +7,7 @@ import { AuthService } from '@app/services/auth.service';
 import { AuthDTO } from './../../models/auth';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { ApplyCssErrorService } from '@app/shared/apply-css-error/apply-css-error.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private applyCssError: ApplyCssErrorService
   ) {}
 
   ngOnInit() {
@@ -30,23 +32,15 @@ export class LoginComponent implements OnInit {
   }
 
   verifyInvalidTouched(campo: string) {
-    return this.form.get(campo).invalid && this.form.get(campo).touched;
+    return this.applyCssError.verifyInvalidTouched(this.form, campo);
   }
 
   verifyValidTouched(campo: string) {
-    return this.form.get(campo).valid && this.form.get(campo).touched;
+    return this.applyCssError.verifyValidTouched(this.form, campo);
   }
 
   applyCssErro(campo: string) {
-    if (this.verifyInvalidTouched(campo)) {
-      return {
-        'is-invalid': true
-      };
-    } else if (this.verifyValidTouched(campo)) {
-      return {
-        'is-valid': true
-      };
-    }
+    return this.applyCssError.applyCssErro(this.form, campo);
   }
 
   onSubmit() {
@@ -57,7 +51,7 @@ export class LoginComponent implements OnInit {
         .pipe(
           tap((user) => {
             this.auth.token = user.token;
-            this.auth.user = user.id;
+            this.auth.user = user.username;
             this.router.navigate(['/events']);
           }),
           catchError((error: any) => {

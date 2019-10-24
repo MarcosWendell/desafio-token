@@ -1,4 +1,4 @@
-import { User, UserDTO } from './user';
+import { User } from './user';
 
 export interface Event {
   id: string;
@@ -14,5 +14,4 @@ export interface EventDTO {
   description: string;
   startHour: string;
   endHour: string;
-  owner: UserDTO;
 }
