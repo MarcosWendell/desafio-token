@@ -26,6 +26,8 @@ export class CreateComponent implements OnInit {
     this.form = this.formBuider.group({
       title: [null, [Validators.required, Validators.minLength(3)]],
       description: [null, [Validators.required, Validators.minLength(3)]],
+      startDate: [null, Validators.required],
+      endDate: [null],
       startHour: [
         null,
         [

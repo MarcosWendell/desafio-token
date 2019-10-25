@@ -30,8 +30,16 @@ export class UpdateComponent implements OnInit {
         tap((event: EventDTO) => {
           this.event = event;
           this.form = this.formBuider.group({
-            title: [this.event.title, [Validators.required, Validators.minLength(5)]],
-            description: [this.event.description, [Validators.required, Validators.minLength(5)]],
+            title: [
+              this.event.title,
+              [Validators.required, Validators.minLength(5)]
+            ],
+            description: [
+              this.event.description,
+              [Validators.required, Validators.minLength(5)]
+            ],
+            startDate: [this.event.startDate, Validators.required],
+            endDate: [this.event.endDate ? this.event.endDate : null],
             startHour: [
               this.event.startHour,
               [

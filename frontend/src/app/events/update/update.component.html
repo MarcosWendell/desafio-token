@@ -31,6 +31,31 @@
           />
         </div>
         <div class="form-group">
+          <label for="startDate">Date</label>
+          <input
+            type="startDate"
+            class="form-control"
+            id="startDate"
+            placeholder="14:00"
+            formControlName="startDate"
+          />
+        </div>
+        <button type="button" class="btn btn-primary" btnCheckbox #isLonger>
+          This event is longer then one day?
+        </button>
+        <div *ngIf="isLonger" >
+          <div class="form-group">
+            <label for="endDate">End Date</label>
+            <input
+              type="endDate"
+              class="form-control"
+              id="endDate"
+              placeholder="14:00"
+              formControlName="endDate"
+            />
+          </div>
+        </div>
+        <div class="form-group">
           <label for="startHour">Start</label>
           <input
             type="startHour"

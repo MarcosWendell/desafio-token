@@ -18,6 +18,12 @@ export class EventEntity {
   @Column('text')
   endHour: string;
 
+  @Column('date')
+  begin: Date;
+
+  @Column('date')
+  end?: Date;
+
   @ManyToOne(type => UserEntity, user => user.events)
   owner: UserEntity;
 }
