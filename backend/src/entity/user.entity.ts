@@ -53,6 +53,6 @@ export class UserEntity {
 
   private get token() {
     const { id, username } = this;
-    return jwt.sign({ id, username }, SECRET, { expiresIn: '7d' });
+    return jwt.sign({ id, username }, SECRET, { expiresIn: '30m' });
   }
 }

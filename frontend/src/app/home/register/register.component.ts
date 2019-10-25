@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '@app/services/auth.service';
-import { take, tap, catchError } from 'rxjs/operators';
+import { tap, catchError, switchMap } from 'rxjs/operators';
 import { AuthDTO } from '@app/models/auth';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: [null, [Validators.required, Validators.minLength(3)]],
       username: [null, [Validators.required, Validators.minLength(3)]],
-      password: [null, [Validators.required, Validators.minLength(6)]]
+      password: [null, [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
       this.auth
         .register(data)
         .pipe(
-          tap(() => this.router.navigate['/']),
+          tap(() => this.router.navigate(['/login'])),
           catchError((error: any) => {
             console.log(error.error.message);
             return of(null);

@@ -11,6 +11,8 @@ import { User } from '@app/models/user';
 })
 export class AuthService {
   private api: string = environment.api_server + '/auth';
+  redirectUrl: string;
+  isLoggedIn = false;
 
   constructor(private http: HttpClient) { }
 

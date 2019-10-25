@@ -52,7 +52,11 @@ export class LoginComponent implements OnInit {
           tap((user) => {
             this.auth.token = user.token;
             this.auth.user = user.username;
-            this.router.navigate(['/events']);
+            this.auth.isLoggedIn = true;
+
+            const redirect = this.auth.redirectUrl ? this.router.parseUrl(this.auth.redirectUrl) : '/events';
+
+            this.router.navigateByUrl(redirect);
           }),
           catchError((error: any) => {
             console.log(error.error.message);

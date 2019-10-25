@@ -17,21 +17,36 @@ export class UserService {
 
   async showAll(): Promise<UserRO[]> {
     const users = await this.userRepository.find({ relations: ['events'] });
-    return users.map( user => user.toResponseObject() );
+    return users.map(user => user.toResponseObject());
+  }
+
+  async delete(id: string) {
+    const user = await this.userRepository.findOne({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+    await this.userRepository.delete(id);
+    return user.toResponseObject();
   }
 
   async login(data: UserDTO): Promise<UserRO> {
     const { username, password } = data;
-    const user = await this.userRepository.findOne({ where: {username}});
+    const user = await this.userRepository.findOne({ where: { username } });
     if (!user || !(await user.comparePassword(password))) {
-      throw new HttpException('Invalid username/password', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Invalid username/password',
+        HttpStatus.BAD_REQUEST,
+      );
     }
     return user.toResponseObject(true);
   }
 
   async register(data: UserDTO): Promise<UserRO> {
     const { username } = data;
-    let user = await this.userRepository.findOne({ where: {username} });
+    let user = await this.userRepository.findOne({ where: { username } });
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }

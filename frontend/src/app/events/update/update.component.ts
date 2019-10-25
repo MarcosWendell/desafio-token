@@ -59,7 +59,7 @@ export class UpdateComponent implements OnInit {
         .updateEvent(this.route.snapshot.params.id, data)
         .pipe(
           tap(() => {
-            this.router.navigate(['']);
+            this.router.navigate(['/events']);
           }),
           catchError((error: any) => {
             console.log(error.error.message);

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UsePipes, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, UsePipes, UseGuards, Delete, Param } from '@nestjs/common';
 
 import { ValidationPipe } from './../shared/validation.pipe';
 import { UserDTO } from './../asset/user.dto';
@@ -10,9 +10,13 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('api/users')
-  @UseGuards(new AuthGuard())
   showAllUsers() {
     return this.userService.showAll();
+  }
+
+  @Delete('api/users/:id')
+  delete(@Param('id') id: string){
+    return this.userService.delete(id);
   }
 
   @Post('auth/login')
