@@ -8,12 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./events.component.scss']
 })
 export class EventsComponent implements OnInit {
-  username: string;
+  name: string;
 
   constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.username = this.auth.user;
+    this.name = this.auth.user;
   }
 
   logout() {

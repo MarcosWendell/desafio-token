@@ -4,8 +4,8 @@ export interface Event {
   id: string;
   title: string;
   description: string;
-  startDate: Date;
-  endDate?: Date;
+  startDate: string;
+  endDate?: string;
   startHour: string;
   endHour: string;
   owner: User;
@@ -14,8 +14,8 @@ export interface Event {
 export interface EventDTO {
   title: string;
   description: string;
-  startDate: Date;
-  endDate?: Date;
+  startDate: string;
+  endDate?: string;
   startHour: string;
   endHour: string;
 }

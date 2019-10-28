@@ -18,11 +18,11 @@ export class EventEntity {
   @Column('text')
   endHour: string;
 
-  @Column('date')
-  begin: Date;
+  @Column('text')
+  startDate: string;
 
-  @Column('date')
-  end?: Date;
+  @Column('text', { nullable: true })
+  endDate?: string;
 
   @ManyToOne(type => UserEntity, user => user.events)
   owner: UserEntity;

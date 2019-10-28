@@ -4,7 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventDTO } from '@app/models/event';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-update',
@@ -14,6 +15,8 @@ import { of } from 'rxjs';
 export class UpdateComponent implements OnInit {
   form: FormGroup;
   event: EventDTO;
+  bsConfig: Partial<BsDatepickerConfig>;
+  checked = false;
 
   constructor(
     private api: ApiService,
@@ -24,6 +27,7 @@ export class UpdateComponent implements OnInit {
 
   ngOnInit() {
     const eventId = this.route.snapshot.params.id;
+    this.bsConfig = Object.assign({}, { containerClass: 'theme-blue' });
     this.api
       .getEvent(eventId)
       .pipe(
@@ -58,6 +62,10 @@ export class UpdateComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  onClick() {
+    this.checked = !this.checked;
   }
 
   onSubmit() {

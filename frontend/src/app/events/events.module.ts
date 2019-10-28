@@ -1,12 +1,13 @@
 import { EventsComponent } from './events.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 import { EventsRoutingModule } from './events-routing.module';
 import { MainComponent } from './main/main.component';
 import { CreateComponent } from './create/create.component';
 import { UpdateComponent } from './update/update.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@app/shared/shared.module';
 
 
@@ -20,8 +21,10 @@ import { SharedModule } from '@app/shared/shared.module';
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule,
     ReactiveFormsModule,
-    EventsRoutingModule
+    EventsRoutingModule,
+    BsDatepickerModule.forRoot()
   ]
 })
 export class EventsModule { }

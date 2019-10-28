@@ -5,6 +5,7 @@ import { AlertModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { AppComponent } from '@app/app.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     ModalModule.forRoot(),
     AlertModule.forRoot(),

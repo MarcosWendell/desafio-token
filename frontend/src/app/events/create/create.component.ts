@@ -6,6 +6,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ApplyCssErrorService } from '@app/shared/apply-css-error/apply-css-error.service';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-create',
@@ -14,6 +15,8 @@ import { ApplyCssErrorService } from '@app/shared/apply-css-error/apply-css-erro
 })
 export class CreateComponent implements OnInit {
   form: FormGroup;
+  bsConfig: Partial<BsDatepickerConfig>;
+  checked = false;
 
   constructor(
     private api: ApiService,
@@ -23,6 +26,7 @@ export class CreateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.bsConfig = Object.assign({}, { containerClass: 'theme-blue' });
     this.form = this.formBuider.group({
       title: [null, [Validators.required, Validators.minLength(3)]],
       description: [null, [Validators.required, Validators.minLength(3)]],
@@ -35,6 +39,7 @@ export class CreateComponent implements OnInit {
           Validators.pattern(/^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$/)
         ]
       ],
+      multipleDays: [null],
       endHour: [
         null,
         [
@@ -43,6 +48,10 @@ export class CreateComponent implements OnInit {
         ]
       ]
     });
+  }
+
+  onClick() {
+    this.checked = !this.checked;
   }
 
   verifyInvalidTouched(campo: string) {
@@ -60,6 +69,10 @@ export class CreateComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       const data: EventDTO = this.form.value;
+      data.startDate = new Date(data.startDate).toISOString();
+      if (data.endDate) {
+        data.endDate = new Date(data.endDate).toISOString();
+      }
       this.api
         .createEvent(data)
         .pipe(
@@ -67,6 +80,7 @@ export class CreateComponent implements OnInit {
             this.router.navigate(['/events']);
           }),
           catchError((error: any) => {
+            console.log(data);
             console.log(error.error.message);
             return of(null);
           })

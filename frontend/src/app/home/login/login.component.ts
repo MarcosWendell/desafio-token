@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({
       username: [null, [Validators.required, Validators.minLength(3)]],
-      password: [null, [Validators.required, Validators.minLength(6)]]
+      password: [null, [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
         .pipe(
           tap((user) => {
             this.auth.token = user.token;
-            this.auth.user = user.username;
+            this.auth.user = user.name;
             this.auth.isLoggedIn = true;
 
             const redirect = this.auth.redirectUrl ? this.router.parseUrl(this.auth.redirectUrl) : '/events';

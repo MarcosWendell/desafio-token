@@ -45,12 +45,13 @@
         <div class="form-group">
           <label for="startDate">Date</label>
           <input
-            type="startDate"
+            type="text"
+            placeholder="Select date"
             class="form-control"
-            id="startDate"
-            placeholder="14:00"
             formControlName="startDate"
             [ngClass]="applyCssErro('startDate')"
+            [bsConfig]="bsConfig"
+            bsDatepicker
           />
           <app-apply-css-error
             message="Start date of event is required"
@@ -58,19 +59,28 @@
           >
           </app-apply-css-error>
         </div>
-        <button type="button" class="btn btn-primary" btnCheckbox #isLonger>
-          This event is longer then one day?
-        </button>
-        <div *ngIf="isLonger" >
+        <div class="form-check mb-2">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="multipleDays"
+            (click)="onClick()"
+          />
+          <label class="form-check-label" for="multipleDays">
+            This event is longer than one day?
+          </label>
+        </div>
+        <div *ngIf="checked">
           <div class="form-group">
             <label for="endDate">End Date</label>
             <input
-              type="endDate"
+              type="date"
+              placeholder="Select date"
               class="form-control"
-              id="endDate"
-              placeholder="14:00"
               formControlName="endDate"
               [ngClass]="applyCssErro('endDate')"
+              [bsConfig]="bsConfig"
+              bsDatepicker
             />
             <app-apply-css-error
               message="End date of event is required"

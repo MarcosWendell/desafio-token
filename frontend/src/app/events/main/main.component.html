@@ -10,7 +10,7 @@
         routerLinkActive="router-link-active"
       >
         <i
-          class="fas fa-plus-circle"
+          class="fas fa-plus-circle pr-1"
           style="font-size:18px;color: cornflowerblue;"
         ></i>
         New Event
@@ -24,9 +24,25 @@
         class="card mb-2 mx-2"
         style="width: 18rem; background-color:lightgrey;"
       >
+        <div class="card-header">
+          <h5 class="font-weight-bold m-0">{{ event.title }}</h5>
+        </div>
         <div class="card-body">
-          <h5 class="card-title">{{ event.title }}</h5>
-          <p class="card-text">{{ event.description }}</p>
+          <div *ngIf="!event.endDate">
+            <p class="card-text font-italic m-0">{{ event.startDate }}</p>
+            <p class="card-text font-italic">
+              {{ event.startHour }} - {{ event.endHour }}
+            </p>
+          </div>
+          <div *ngIf="event.endDate">
+            <p class="card-text font-italic">
+              {{ event.startDate }} to {{ event.endDate }}
+            </p>
+            <p class="card-text font-italic">
+              {{ event.startHour }} - {{ event.endHour }}
+            </p>
+          </div>
+          <p class="card-text mt-2">{{ event.description }}</p>
           <button
             type="button"
             class="btn btn-info mr-3"
@@ -65,7 +81,11 @@
   <div class="modal-body">
     <p>Are you sure you want to delete this event?</p>
     <div class="d-flex justify-content-end">
-      <button type="button" class="btn btn-secondary mr-2" (click)="modalRef.hide()">
+      <button
+        type="button"
+        class="btn btn-secondary mr-2"
+        (click)="modalRef.hide()"
+      >
         Cancel
       </button>
       <button type="button" class="btn btn-danger" (click)="delete()">

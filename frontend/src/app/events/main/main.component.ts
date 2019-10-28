@@ -20,9 +20,18 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.api
       .getEvents()
-      .pipe(tap(events => (this.events = events)))
+      .pipe(tap((events) => {
+        for (const event of events) {
+          event.startDate = new Date(event.startDate).toDateString();
+        }
+        this.events = events;
+      }))
       .subscribe();
   }
+
+  // toDateFormat(date: Date) {
+  //   return `${day} de ${month}`
+  // }
 
   openModal(template: TemplateRef<any>, id: string, index: number) {
     this.eventId = id;
