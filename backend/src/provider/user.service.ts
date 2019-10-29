@@ -3,21 +3,22 @@ import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { UserEntity } from '../entity/user.entity';
-import { EventEntity } from '../entity/event.entity';
-import { USER_REPOSITORY, EVENT_REPOSITORY } from '../asset/constants';
+import { USER_REPOSITORY } from '../asset/constants';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: Repository<UserEntity>,
-    @Inject(EVENT_REPOSITORY)
-    private readonly eventRepository: Repository<EventEntity>,
   ) {}
 
   async showAll(): Promise<UserRO[]> {
     const users = await this.userRepository.find({ relations: ['events'] });
     return users.map(user => user.toResponseObject());
+  }
+
+  async whoAmI(id: string): Promise<UserEntity> {
+    return await this.userRepository.findOne({ where: { id } });
   }
 
   async delete(id: string) {

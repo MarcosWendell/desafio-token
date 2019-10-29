@@ -13,6 +13,7 @@ import { ValidationPipe } from './../shared/validation.pipe';
 import { UserDTO } from './../asset/user.dto';
 import { UserService } from '../provider/user.service';
 import { AuthGuard } from '../shared/auth.guard';
+import { User } from '../asset/user.decorator';
 
 @Controller()
 export class UserController {
@@ -22,6 +23,12 @@ export class UserController {
   @UseGuards(new AuthGuard())
   showAllUsers() {
     return this.userService.showAll();
+  }
+
+  @Get('api/whoAmI')
+  @UseGuards(new AuthGuard())
+  whoAmI(@User('id') user: string) {
+    return this.userService.whoAmI(user);
   }
 
   @Delete('api/users/:id')

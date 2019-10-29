@@ -1,4 +1,3 @@
-import { USER_REPOSITORY } from './../asset/constants';
 import {
   Injectable,
   Inject,
@@ -6,20 +5,19 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
-import { Repository, Between } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { EVENT_REPOSITORY } from '../asset/constants';
 import { EventEntity } from './../entity/event.entity';
 import { EventDTO, EventRO, DateCheckDTO } from '../asset/event.dto';
-import { UserEntity } from '../entity/user.entity';
+import { UserService } from './user.service';
 
 @Injectable()
 export class EventService {
   constructor(
     @Inject(EVENT_REPOSITORY)
     private readonly eventRepository: Repository<EventEntity>,
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly userService: UserService,
   ) {}
 
   private toResponseObject(event: EventEntity): EventRO {
@@ -42,10 +40,8 @@ export class EventService {
 
   async check(data: DateCheckDTO) {
     const events = await this.eventRepository.find();
-    Logger.log(events);
     for (const event of events) {
       if (event.startDate.split('T')[0] === data.sDate.split('T')[0]) {
-        Logger.log('ops');
         return false;
       }
     }
@@ -66,7 +62,7 @@ export class EventService {
   }
 
   async create(userId: string, data: EventDTO): Promise<EventRO> {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.userService.whoAmI(userId);
     const event = await this.eventRepository.create({ ...data, owner: user });
     await this.eventRepository.save(event);
     return this.toResponseObject(event);

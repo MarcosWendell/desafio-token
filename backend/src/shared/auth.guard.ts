@@ -16,13 +16,13 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-  async validateToken(auth: string) {
+  validateToken(auth: string) {
     if (auth.split(' ')[0] !== 'Bearer') {
       throw new HttpException('Invalid token', HttpStatus.FORBIDDEN);
     }
     const token = auth.split(' ')[1];
     try {
-      const decoded = await jwt.verify(token, SECRET);
+      const decoded = jwt.verify(token, SECRET);
       return decoded;
     } catch (err) {
       const message = 'Token error: ' + (err.message || err.name );
