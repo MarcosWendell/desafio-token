@@ -1,3 +1,4 @@
+import { DateCheckDTO } from '@app/models/date-check';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
@@ -7,6 +8,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ApplyCssErrorService } from '@app/shared/apply-css-error/apply-css-error.service';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-create',
@@ -66,6 +68,19 @@ export class CreateComponent implements OnInit {
     return this.applyCssError.applyCssErro(this.form, campo);
   }
 
+  async checkValid(sHour, eHour, sDate, eDate) {
+    const data: DateCheckDTO = { sDate, sHour, eHour };
+    if (eDate) {
+      data.eDate = eDate;
+    }
+    let validated = false;
+    await this.api
+      .checkDates(data)
+      .pipe(tap((valid: boolean) => (validated = valid)))
+      .subscribe();
+    return validated;
+  }
+
   onSubmit() {
     if (this.form.valid) {
       const data: EventDTO = this.form.value;
@@ -73,19 +88,30 @@ export class CreateComponent implements OnInit {
       if (data.endDate) {
         data.endDate = new Date(data.endDate).toISOString();
       }
-      this.api
-        .createEvent(data)
-        .pipe(
-          tap(() => {
-            this.router.navigate(['/events']);
-          }),
-          catchError((error: any) => {
-            console.log(data);
-            console.log(error.error.message);
-            return of(null);
-          })
+      if (
+        this.checkValid(
+          data.startHour,
+          data.endHour,
+          data.startDate,
+          data.endDate
         )
-        .subscribe();
+      ) {
+        this.api
+          .createEvent(data)
+          .pipe(
+            tap(() => {
+              this.router.navigate(['/events']);
+            }),
+            catchError((error: any) => {
+              console.log(data);
+              console.log(error.error.message);
+              return of(null);
+            })
+          )
+          .subscribe();
+      } else {
+        this.form.setErrors({ invalidDate: true });
+      }
     }
   }
 }

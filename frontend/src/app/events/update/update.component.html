@@ -8,7 +8,7 @@
         <strong>Update Event</strong>
       </h3>
     </div>
-    <div class="card-body bg-light">
+    <div class="card-body bg-light" *ngIf="!loading" >
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="title">Title</label>
@@ -34,11 +34,12 @@
           <label for="startDate">Date</label>
           <input
             type="text"
-            placeholder="Select date"
+            placeholder="mm/dd/yyyy"
             class="form-control"
             formControlName="startDate"
             [bsConfig]="bsConfig"
             bsDatepicker
+            readonly="true"
           />
         </div>
         <div class="form-check mb-2">
@@ -57,11 +58,12 @@
             <label for="endDate">End Date</label>
             <input
               type="text"
-              placeholder="Select date"
+              placeholder="mm/dd/yyyy"
               class="form-control"
               formControlName="endDate"
               [bsConfig]="bsConfig"
               bsDatepicker
+              readonly="true"
             />
           </div>
         </div>

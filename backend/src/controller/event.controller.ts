@@ -1,7 +1,21 @@
-import { Controller, Get, Post, Param, Delete, Put, Body, UsePipes, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Request,
+  Param,
+  Delete,
+  Put,
+  Body,
+  UsePipes,
+  UseGuards,
+  UseInterceptors,
+  Logger,
+} from '@nestjs/common';
 
 import { EventService } from '../provider/event.service';
 import { EventDTO } from '../asset/event.dto';
+import { DateCheckDTO } from './../asset/event.dto';
 import { AuthGuard } from '../shared/auth.guard';
 import { ValidationPipe } from './../shared/validation.pipe';
 import { User } from '../asset/user.decorator';
@@ -24,6 +38,12 @@ export class EventController {
     return this.eventService.find(id);
   }
 
+  @Post('checkDates')
+  @UseGuards(new AuthGuard())
+  check(@Body() data: DateCheckDTO) {
+    return this.eventService.check(data);
+  }
+
   @Post('create')
   @UsePipes(new ValidationPipe())
   @UseGuards(new AuthGuard())
@@ -34,7 +54,11 @@ export class EventController {
   @Put(':id/update')
   @UsePipes(new ValidationPipe())
   @UseGuards(new AuthGuard())
-  updateEvent(@Param('id') id: string, @User('id') user: string, @Body() data: Partial<EventDTO>) {
+  updateEvent(
+    @Param('id') id: string,
+    @User('id') user: string,
+    @Body() data: Partial<EventDTO>,
+  ) {
     return this.eventService.update(id, user, data);
   }
 

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthService } from '@app/services/auth.service';
 import { EventDTO, Event } from '@app/models/event';
+import { DateCheckDTO } from '@app/models/date-check';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class ApiService {
 
   private request(method: string, endpoint: string, body?: any) {
     const url = `${this.api}/${endpoint}`;
+    console.log(url, method, body);
     return this.http.request(method, url, {
       body,
       headers: { authorization: `Bearer ${this.auth.token}` }
@@ -24,6 +26,10 @@ export class ApiService {
 
   getEvents(): Observable<Event[]> {
     return this.request('GET', `events`) as Observable<Event[]>;
+  }
+
+  checkDates(data: DateCheckDTO) {
+    return this.request('POST', `events/checkDates`, data);
   }
 
   getEvent(id: string) {
@@ -35,7 +41,6 @@ export class ApiService {
   }
 
   updateEvent(id: string, data: Partial<EventDTO>) {
-    console.log(id, data);
     return this.request('PUT', `events/${id}/update`, data);
   }
 

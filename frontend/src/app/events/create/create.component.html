@@ -46,12 +46,13 @@
           <label for="startDate">Date</label>
           <input
             type="text"
-            placeholder="Select date"
+            placeholder="mm/dd/yyyy"
             class="form-control"
             formControlName="startDate"
-            [ngClass]="applyCssErro('startDate')"
             [bsConfig]="bsConfig"
             bsDatepicker
+            readonly="true"
+            [ngClass]="applyCssErro('startDate')"
           />
           <app-apply-css-error
             message="Start date of event is required"
@@ -74,13 +75,14 @@
           <div class="form-group">
             <label for="endDate">End Date</label>
             <input
-              type="date"
-              placeholder="Select date"
+              type="text"
+              placeholder="mm/dd/yyyy"
               class="form-control"
               formControlName="endDate"
-              [ngClass]="applyCssErro('endDate')"
               [bsConfig]="bsConfig"
               bsDatepicker
+              readonly="true"
+              [ngClass]="applyCssErro('endDate')"
             />
             <app-apply-css-error
               message="End date of event is required"

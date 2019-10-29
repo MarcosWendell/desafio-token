@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, finalize } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventDTO } from '@app/models/event';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 
 @Component({
@@ -17,6 +17,7 @@ export class UpdateComponent implements OnInit {
   event: EventDTO;
   bsConfig: Partial<BsDatepickerConfig>;
   checked = false;
+  loading = true;
 
   constructor(
     private api: ApiService,
@@ -33,17 +34,24 @@ export class UpdateComponent implements OnInit {
       .pipe(
         tap((event: EventDTO) => {
           this.event = event;
+
+          const sDate = new Date(event.startDate);
+          let eDate = null;
+          if (event.endDate) {
+            eDate = new Date(event.endDate);
+          }
+
           this.form = this.formBuider.group({
             title: [
               this.event.title,
-              [Validators.required, Validators.minLength(5)]
+              [Validators.required, Validators.minLength(3)]
             ],
             description: [
               this.event.description,
-              [Validators.required, Validators.minLength(5)]
+              [Validators.required, Validators.minLength(3)]
             ],
-            startDate: [this.event.startDate, Validators.required],
-            endDate: [this.event.endDate ? this.event.endDate : null],
+            startDate: [sDate, Validators.required],
+            endDate: [eDate],
             startHour: [
               this.event.startHour,
               [
@@ -59,7 +67,8 @@ export class UpdateComponent implements OnInit {
               ]
             ]
           });
-        })
+        }),
+        finalize(() => (this.loading = false))
       )
       .subscribe();
   }
@@ -69,8 +78,13 @@ export class UpdateComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form);
     if (this.form.valid) {
       const data: EventDTO = this.form.value;
+      data.startDate = new Date(data.startDate).toISOString();
+      if (data.endDate) {
+        data.endDate = new Date(data.endDate).toISOString();
+      }
       this.api
         .updateEvent(this.route.snapshot.params.id, data)
         .pipe(

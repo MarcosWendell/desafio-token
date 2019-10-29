@@ -29,10 +29,6 @@ export class MainComponent implements OnInit {
       .subscribe();
   }
 
-  // toDateFormat(date: Date) {
-  //   return `${day} de ${month}`
-  // }
-
   openModal(template: TemplateRef<any>, id: string, index: number) {
     this.eventId = id;
     this.index = index;

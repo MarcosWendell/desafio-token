@@ -1,10 +1,16 @@
 import { USER_REPOSITORY } from './../asset/constants';
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import {
+  Injectable,
+  Inject,
+  HttpException,
+  HttpStatus,
+  Logger,
+} from '@nestjs/common';
+import { Repository, Between } from 'typeorm';
 
 import { EVENT_REPOSITORY } from '../asset/constants';
 import { EventEntity } from './../entity/event.entity';
-import { EventDTO, EventRO } from '../asset/event.dto';
+import { EventDTO, EventRO, DateCheckDTO } from '../asset/event.dto';
 import { UserEntity } from '../entity/user.entity';
 
 @Injectable()
@@ -27,8 +33,23 @@ export class EventService {
   }
 
   async showAll(userId: string): Promise<EventRO[]> {
-    const events = await this.eventRepository.find({ where: { owner: userId }, relations: ['owner']});
-    return events.map((event) => this.toResponseObject(event));
+    const events = await this.eventRepository.find({
+      where: { owner: userId },
+      relations: ['owner'],
+    });
+    return events.map(event => this.toResponseObject(event));
+  }
+
+  async check(data: DateCheckDTO) {
+    const events = await this.eventRepository.find();
+    Logger.log(events);
+    for (const event of events) {
+      if (event.startDate.split('T')[0] === data.sDate.split('T')[0]) {
+        Logger.log('ops');
+        return false;
+      }
+    }
+    return true;
   }
 
   async find(id: string): Promise<EventRO> {

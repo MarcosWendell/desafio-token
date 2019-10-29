@@ -34,3 +34,11 @@ export class EventRO {
   endDate?: string;
   owner: UserRO;
 }
+
+// tslint:disable-next-line: max-classes-per-file
+export class DateCheckDTO {
+  sDate: string;
+  eDate?: string;
+  sHour: string;
+  eHour: string;
+}
