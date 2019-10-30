@@ -62,10 +62,16 @@ export class EventService {
   }
 
   async create(userId: string, data: EventDTO): Promise<EventRO> {
+    const events = await this.eventRepository.find();
+    for (const event of events) {
+      if (event.startDate.split('T')[0] === data.startDate.split('T')[0]) {
+        throw new HttpException('Date already has an event assigned', HttpStatus.CONFLICT);
+      }
+    }
     const user = await this.userService.whoAmI(userId);
-    const event = await this.eventRepository.create({ ...data, owner: user });
-    await this.eventRepository.save(event);
-    return this.toResponseObject(event);
+    const newEvent = await this.eventRepository.create({ ...data, owner: user });
+    await this.eventRepository.save(newEvent);
+    return this.toResponseObject(newEvent);
   }
 
   async update(id: string, userId: string, data: Partial<EventDTO>) {
