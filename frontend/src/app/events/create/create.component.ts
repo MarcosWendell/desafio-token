@@ -1,6 +1,6 @@
 import { DateCheckDTO } from '@app/models/date-check';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { EventDTO } from '@app/models/event';
 import { tap, catchError } from 'rxjs/operators';
@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { ApplyCssErrorService } from '@app/shared/apply-css-error/apply-css-error.service';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { invalid } from '@angular/compiler/src/render3/view/util';
+import { CssError } from '@app/shared/apply-css-error/css-error';
 
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent extends CssError implements OnInit {
   form: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
   checked = false;
@@ -24,8 +24,10 @@ export class CreateComponent implements OnInit {
     private api: ApiService,
     private formBuider: FormBuilder,
     private router: Router,
-    private applyCssError: ApplyCssErrorService
-  ) {}
+    injector: Injector
+  ) {
+    super(injector);
+  }
 
   ngOnInit() {
     this.bsConfig = Object.assign({}, { containerClass: 'theme-blue' });
@@ -54,18 +56,6 @@ export class CreateComponent implements OnInit {
 
   onClick() {
     this.checked = !this.checked;
-  }
-
-  verifyInvalidTouched(campo: string) {
-    return this.applyCssError.verifyInvalidTouched(this.form, campo);
-  }
-
-  verifyValidTouched(campo: string) {
-    return this.applyCssError.verifyValidTouched(this.form, campo);
-  }
-
-  applyCssErro(campo: string) {
-    return this.applyCssError.applyCssErro(this.form, campo);
   }
 
   async checkValid(sHour, eHour, sDate, eDate) {

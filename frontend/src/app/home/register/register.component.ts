@@ -1,25 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '@app/services/auth.service';
-import { tap, catchError, switchMap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import { AuthDTO } from '@app/models/auth';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { CssError } from '@app/shared/apply-css-error/css-error';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends CssError implements OnInit {
   form: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    injector: Injector
+  ) {
+    super(injector);
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -27,26 +31,6 @@ export class RegisterComponent implements OnInit {
       username: [null, [Validators.required, Validators.minLength(3)]],
       password: [null, [Validators.required, Validators.minLength(3)]]
     });
-  }
-
-  verifyInvalidTouched(campo: string) {
-    return this.form.get(campo).invalid && this.form.get(campo).touched;
-  }
-
-  verifyValidTouched(campo: string) {
-    return this.form.get(campo).valid && this.form.get(campo).touched;
-  }
-
-  applyCssErro(campo: string) {
-    if (this.verifyInvalidTouched(campo)) {
-      return {
-        'is-invalid': true
-      };
-    } else if (this.verifyValidTouched(campo)) {
-      return {
-        'is-valid': true
-      };
-    }
   }
 
   onSubmit() {

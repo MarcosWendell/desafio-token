@@ -1,13 +1,6 @@
 <div class="d-flex justify-content-center">
-  <div class="card" style="width: 24rem; border: 1px solid black;">
-    <div
-      class="card-header text-center"
-      style="border-bottom: 1px solid black; background: cornflowerblue;"
-    >
-      <h3 class="mb-0" style="color: black;">
-        <strong>Create New Event</strong>
-      </h3>
-    </div>
+  <div class="card">
+    <app-card-style title="Create New Event"></app-card-style>
     <div class="card-body bg-light">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-group">
@@ -18,11 +11,11 @@
             id="title"
             placeholder="Meeting"
             formControlName="title"
-            [ngClass]="applyCssErro('title')"
+            [ngClass]="applyCssErro(form, 'title')"
           />
           <app-apply-css-error
             message="Title is required"
-            [show]="verifyInvalidTouched('title')"
+            [show]="verifyInvalidTouched(form, 'title')"
           >
           </app-apply-css-error>
         </div>
@@ -34,11 +27,11 @@
             id="description"
             placeholder="Company's bimestrial meeting"
             formControlName="description"
-            [ngClass]="applyCssErro('description')"
+            [ngClass]="applyCssErro(form, 'description')"
           />
           <app-apply-css-error
             message="Description is required"
-            [show]="verifyInvalidTouched('description')"
+            [show]="verifyInvalidTouched(form, 'description')"
           >
           </app-apply-css-error>
         </div>
@@ -52,11 +45,11 @@
             [bsConfig]="bsConfig"
             bsDatepicker
             readonly="true"
-            [ngClass]="applyCssErro('startDate')"
+            [ngClass]="applyCssErro(form, 'startDate')"
           />
           <app-apply-css-error
             message="Start date of event is required"
-            [show]="verifyInvalidTouched('startDate')"
+            [show]="verifyInvalidTouched(form, 'startDate')"
           >
           </app-apply-css-error>
         </div>
@@ -82,11 +75,11 @@
               [bsConfig]="bsConfig"
               bsDatepicker
               readonly="true"
-              [ngClass]="applyCssErro('endDate')"
+              [ngClass]="applyCssErro(form, 'endDate')"
             />
             <app-apply-css-error
               message="End date of event is required"
-              [show]="verifyInvalidTouched('endDate')"
+              [show]="verifyInvalidTouched(form, 'endDate')"
             >
             </app-apply-css-error>
           </div>
@@ -99,11 +92,11 @@
             id="startHour"
             placeholder="14:00"
             formControlName="startHour"
-            [ngClass]="applyCssErro('startHour')"
+            [ngClass]="applyCssErro(form, 'startHour')"
           />
           <app-apply-css-error
             message="Start hour of event is required"
-            [show]="verifyInvalidTouched('startHour')"
+            [show]="verifyInvalidTouched(form, 'startHour')"
           >
           </app-apply-css-error>
         </div>
@@ -115,11 +108,11 @@
             id="endHour"
             placeholder="18:00"
             formControlName="endHour"
-            [ngClass]="applyCssErro('endHour')"
+            [ngClass]="applyCssErro(form, 'endHour')"
           />
           <app-apply-css-error
             message="End hour of event is required"
-            [show]="verifyInvalidTouched('endHour')"
+            [show]="verifyInvalidTouched(form, 'endHour')"
           >
           </app-apply-css-error>
         </div>

@@ -9,10 +9,7 @@
         [routerLink]="['create']"
         routerLinkActive="router-link-active"
       >
-        <i
-          class="fas fa-plus-circle pr-1"
-          style="font-size:18px;color: cornflowerblue;"
-        ></i>
+        <i class="fas fa-plus-circle pr-1"></i>
         New Event
       </button>
     </div>
@@ -20,10 +17,7 @@
 
   <div class="d-flex flex-row flex-wrap">
     <div *ngFor="let event of events; let i = index">
-      <div
-        class="card mb-2 mx-2"
-        style="width: 18rem; background-color:lightgrey;"
-      >
+      <div class="card mb-2 mx-2">
         <div class="card-header">
           <h5 class="font-weight-bold m-0">{{ event.title }}</h5>
         </div>

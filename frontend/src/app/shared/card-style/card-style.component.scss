@@ -1,18 +1,12 @@
 @import '../../../styles.scss';
 
-.card {
-  width: 18rem;
-  background-color: lightgrey;
+h3 {
+  color: black;
 }
 
-.card-header{
+.card-header {
   border-bottom: 1px solid black;
-  background-color: lightslategray;
+  background: cornflowerblue;
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
-}
-
-i {
-  font-size: 18px;
-  color: cornflowerblue;
 }

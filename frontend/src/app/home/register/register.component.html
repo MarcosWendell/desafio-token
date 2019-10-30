@@ -1,14 +1,8 @@
 <div class="d-flex justify-content-center">
-  <div class="card" style="width: 24rem; border: 1px solid black;">
-    <div
-      class="card-header text-center"
-      style="border-bottom: 1px solid black; background: cornflowerblue;"
-    >
-      <h3 class="mb-0" style="color: black;"><strong>Register</strong></h3>
-    </div>
+  <div class="card">
+    <app-card-style title="Register"></app-card-style>
     <div class="card-body">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
         <div class="form-group">
           <label for="name">Name</label>
           <input
@@ -17,11 +11,11 @@
             id="name"
             placeholder="Enter name"
             formControlName="name"
-            [ngClass]="applyCssErro('name')"
+            [ngClass]="applyCssErro(form, 'name')"
           />
           <app-apply-css-error
             message="Name is required"
-            [show]="verifyInvalidTouched('name')"
+            [show]="verifyInvalidTouched(form, 'name')"
           >
           </app-apply-css-error>
         </div>
@@ -34,11 +28,11 @@
             id="username"
             placeholder="Enter username"
             formControlName="username"
-            [ngClass]="applyCssErro('username')"
+            [ngClass]="applyCssErro(form, 'username')"
           />
           <app-apply-css-error
             message="Username is required"
-            [show]="verifyInvalidTouched('username')"
+            [show]="verifyInvalidTouched(form, 'username')"
           >
           </app-apply-css-error>
         </div>
@@ -51,11 +45,11 @@
             id="password"
             placeholder="*****"
             formControlName="password"
-            [ngClass]="applyCssErro('password')"
+            [ngClass]="applyCssErro(form, 'password')"
           />
           <app-apply-css-error
             message="Password is required"
-            [show]="verifyInvalidTouched('password')"
+            [show]="verifyInvalidTouched(form, 'password')"
           >
           </app-apply-css-error>
         </div>

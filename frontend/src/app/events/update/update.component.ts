@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { catchError, tap, finalize } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
@@ -6,13 +6,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { EventDTO } from '@app/models/event';
 import { of } from 'rxjs';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { ApplyCssErrorService } from '@app/shared/apply-css-error/apply-css-error.service';
+import { CssError } from '@app/shared/apply-css-error/css-error';
 
 @Component({
   selector: 'app-update',
   templateUrl: './update.component.html',
   styleUrls: ['./update.component.scss']
 })
-export class UpdateComponent implements OnInit {
+export class UpdateComponent extends CssError implements OnInit {
   form: FormGroup;
   event: EventDTO;
   bsConfig: Partial<BsDatepickerConfig>;
@@ -23,8 +25,11 @@ export class UpdateComponent implements OnInit {
     private api: ApiService,
     private formBuider: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    injector: Injector
+  ) {
+    super(injector);
+  }
 
   ngOnInit() {
     const eventId = this.route.snapshot.params.id;
