@@ -83,7 +83,6 @@ export class UpdateComponent extends CssError implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form);
     if (this.form.valid) {
       const data: EventDTO = this.form.value;
       data.startDate = new Date(data.startDate).toISOString();

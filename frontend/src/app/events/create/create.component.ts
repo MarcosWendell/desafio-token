@@ -58,50 +58,26 @@ export class CreateComponent extends CssError implements OnInit {
     this.checked = !this.checked;
   }
 
-  async checkValid(sHour, eHour, sDate, eDate) {
-    const data: DateCheckDTO = { sDate, sHour, eHour };
-    if (eDate) {
-      data.eDate = eDate;
-    }
-    let validated = false;
-    await this.api
-      .checkDates(data)
-      .pipe(tap((valid: boolean) => (validated = valid)))
-      .subscribe();
-    return validated;
-  }
-
-  onSubmit() {
+  async onSubmit() {
     if (this.form.valid) {
       const data: EventDTO = this.form.value;
       data.startDate = new Date(data.startDate).toISOString();
       if (data.endDate) {
         data.endDate = new Date(data.endDate).toISOString();
       }
-      if (
-        this.checkValid(
-          data.startHour,
-          data.endHour,
-          data.startDate,
-          data.endDate
+
+      this.api
+        .createEvent(data)
+        .pipe(
+          tap(() => {
+            this.router.navigate(['/events']);
+          }),
+          catchError((error: any) => {
+            console.log(error.error.message);
+            return of(null);
+          })
         )
-      ) {
-        this.api
-          .createEvent(data)
-          .pipe(
-            tap(() => {
-              this.router.navigate(['/events']);
-            }),
-            catchError((error: any) => {
-              console.log(data);
-              console.log(error.error.message);
-              return of(null);
-            })
-          )
-          .subscribe();
-      } else {
-        this.form.setErrors({ invalidDate: true });
-      }
+        .subscribe();
     }
   }
 }

@@ -17,7 +17,6 @@ export class ApiService {
 
   private request(method: string, endpoint: string, body?: any) {
     const url = `${this.api}/${endpoint}`;
-    console.log(url, method, body);
     return this.http.request(method, url, {
       body,
       headers: { authorization: `Bearer ${this.auth.token}` }
